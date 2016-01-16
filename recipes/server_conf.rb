@@ -52,5 +52,15 @@ template "#{node['postgresql']['dir']}/pg_hba.conf" do
   owner "postgres"
   group "postgres"
   mode 00600
+  notifies :create, 'remote_file[rhel-compatability-copy]', :delayed
+end
+
+remote_file "rhel-compatability-copy" do
+  source "file://#{node['postgresql']['dir']}/pg_hba.conf"
+  path "/var/lib/pgsql/data/pg_hba.conf"
+  action :create
+  owner "postgres"
+  group "postgres"
+  mode 00600
   notifies change_notify, 'service[postgresql]', :immediately
 end

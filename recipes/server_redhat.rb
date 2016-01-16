@@ -95,7 +95,7 @@ if node['postgresql']['server']['init_package'] == 'systemd'
     end
   else
     execute "#{node['postgresql']['setup_script']} initdb #{svc_name}" do
-      not_if { ::File.exist?("#{node['postgresql']['config']['data_directory']}/PG_VERSION") }
+      not_if { ::File.exist?("/var/lib/pgsql/data/PG_VERSION") }
     end
   end
 
